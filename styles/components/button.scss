@@ -1,0 +1,39 @@
+.button {
+  min-width: 145px;
+  height: 48px;
+  border: none;
+  background-color: transparent;
+  border-radius: $b-radius;
+  font-size: $fs-button;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  &:hover {
+    box-shadow: 0 14px 28px rgba(73, 130, 252, 0.3),
+      0 10px 10px rgba(0, 0, 0, 0);
+    transform: scale(1.04) translateY(-2px);
+  }
+}
+.button--primary {
+  background: linear-gradient(to bottom right, #47b5ff, #5f48ff);
+  color: $c-white;
+  box-shadow: 0 7px 15px rgba(73, 130, 252, 0.15), 0 7px 7px rgba(0, 0, 0, 0);
+}
+.button--secondary {
+  border: 2px solid $c-primary;
+  color: $c-primary;
+}
+.button--small {
+}
+.button--medium {
+}
+.button--large {
+}
+
+.custom-button {
+  color: $c-white;
+  max-width: 286px;
+  height: 47px;
+  background: #656cff;
+  border-radius: 135px;
+}

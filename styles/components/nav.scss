@@ -1,0 +1,42 @@
+@use "sass:color";
+
+.header {
+  overflow: hidden;
+  background-color: $c-background;
+  padding: 20px 10px;
+}
+
+.header a {
+  color: color.scale($c-white, $alpha: -30%);
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  transition: color 0.2s ease-in-out;
+}
+
+.header a:hover {
+  color: $c-white;
+}
+
+.header a.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.header-right {
+  float: right;
+}
+
+@media screen and (max-width: 500px) {
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+
+  .header-right {
+    float: none;
+  }
+}

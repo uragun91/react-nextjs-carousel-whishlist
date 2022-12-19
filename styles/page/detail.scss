@@ -1,0 +1,46 @@
+.sliderDetail {
+  width: 650px;
+  text-align: center;
+  overflow: hidden;
+  margin-top: 10px;
+  margin: 10px;
+}
+
+.sliderDetail .slides > div {
+  height: 400px;
+  width: 700px;
+}
+
+.wrapper {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(2, [col] 100px);
+  grid-template-rows: repeat(2, [row] auto);
+  width: 100%;
+}
+
+.box {
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 150%;
+}
+
+.left {
+  // max-width: 500px;
+  grid-column: col 1 / span 3;
+  grid-row: row;
+}
+.right {
+  grid-column: col 3 / span 2;
+  grid-row: row;
+}
+
+.bottom {
+  min-height: 120px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  border: 1px solid gray;
+  grid-column: col / span 5;
+  grid-row: row 2;
+}

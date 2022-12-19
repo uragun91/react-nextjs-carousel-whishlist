@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`With Snapshot Testing App shows Future-proof your business. WiFi 6E is here.!" 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="vertical-center"
+  >
+    <h4>
+      Popular
+    </h4>
+    <div
+      className="slider"
+    >
+      <div
+        className="slides"
+      />
+    </div>
+    <h4>
+      Top Rated
+    </h4>
+    <div
+      className="slider"
+    >
+      <div
+        className="slides"
+      />
+    </div>
+    <h4>
+      Upcoming
+    </h4>
+    <div
+      className="slider"
+    >
+      <div
+        className="slides"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`With Snapshot Testing Application manageing movies and detail of specific movie.!" 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="vertical-center"
+  >
+    <h4>
+      Popular
+    </h4>
+    <div
+      className="slider"
+    >
+      <div
+        className="slides"
+      />
+    </div>
+    <h4>
+      Top Rated
+    </h4>
+    <div
+      className="slider"
+    >
+      <div
+        className="slides"
+      />
+    </div>
+    <h4>
+      Upcoming
+    </h4>
+    <div
+      className="slider"
+    >
+      <div
+        className="slides"
+      />
+    </div>
+  </div>
+</div>
+`;

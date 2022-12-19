@@ -1,0 +1,23 @@
+.movie-placeholder {
+  height: 326px;
+  width: 200px;
+  opacity: 0.2;
+
+  &__image {
+    height: 300px;
+    width: 200px;
+  }
+
+  &__title-one {
+    y: 308px;
+    width: 80px;
+    height: 12px;
+  }
+
+  &__title-two {
+    y: 308px;
+    x: 90px;
+    width: 110px;
+    height: 12px;
+  }
+}
