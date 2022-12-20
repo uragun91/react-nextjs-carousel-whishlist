@@ -8,15 +8,9 @@
 ## Features
 
 - Unit test. Tests are incompleted. If I would have more time I would add every single test to every component.
-- SSR Rendering
+- SSR Rendering using Next.js
 - Eslint integration
-- State persistance
-
-## Requirements
-
-- [Node.js](https://nodejs.org/en/)
-- [React.js](https://reactjs.org/)
-- [Next.js](https://nextjs.org/)
+- State persistance using Next.js
 
 ## Installation
 
