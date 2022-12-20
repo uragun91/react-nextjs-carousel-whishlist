@@ -1,16 +1,55 @@
 .wishlist {
   color: $c-white-transparent;
+
+  &__movie {
+    margin-bottom: 40px;
+    padding-top: 40px;
+    border-top: 1px solid $c-white-transparent;
+
+    &:first-child {
+      border-top: none;
+    }
+  }
 }
 
 .wishlist-movie {
   display: flex;
-  height: 450px;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: unset;
+  }
 
   &__title {
     color: $c-white;
+    margin-top: 0;
   }
 
   &__image {
     border-radius: $b-radius;
+  }
+
+  &__poster {
+    margin-right: 40px;
+  }
+
+  &__description {
+    flex: 1;
+    margin-bottom: 10px;
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__info {
+    flex: 1;
+  }
+
+  &__drop {
+    align-self: flex-start;
   }
 }

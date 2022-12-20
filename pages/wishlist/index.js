@@ -9,9 +9,12 @@ const Wishlist = memo(() => {
   const wishlist = useSelector((state) => state.wishlist);
   const dispatch = useDispatch();
 
-  const removeMovie = useCallback((movieId) => {
-    dispatch(removeFromWishlist(movieId));
-  }, []);
+  const removeMovie = useCallback(
+    (movieId) => {
+      dispatch(removeFromWishlist(movieId));
+    },
+    [dispatch]
+  );
 
   const loader = ({ src, width, quality = 30 }) => {
     return `${src}?w=${width}&q=${quality}`;
@@ -40,15 +43,19 @@ const Wishlist = memo(() => {
                 width={200}
                 height={300}
                 alt={movie.path}
+                layout="fixed"
                 loader={loader}
               />
             </div>
-            <div className="wishlist-movie__info">
-              <h2 className="wishlist-movie__title">{movie.title}</h2>
-              <div className="wishlist-movie__description">
-                {movie.overview}
+            <div className="wishlist-movie__right">
+              <div className="wishlist-movie__info">
+                <h2 className="wishlist-movie__title">{movie.title}</h2>
+                <div className="wishlist-movie__description">
+                  {movie.overview}
+                </div>
               </div>
               <Button
+                className="wishlist-movie__drop"
                 onClick={() => removeMovie(movie.id)}
                 variant="primary"
                 condenced={true}

@@ -1,13 +1,42 @@
-@use "sass:color";
+@use 'sass:color';
 
 .header {
   overflow: hidden;
   background-color: $c-background;
   padding: 20px 10px;
+  display: flex;
+  align-items: center;
+
+  &__left {
+    flex: 1;
+  }
+
+  &__right {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__wishlist-link {
+    position: relative;
+  }
+
+  &__badge {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 999px;
+    min-width: 2ch;
+    font-size: 12px;
+    padding: 2px;
+    background: $c-secondary;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+  }
 }
 
 .header a {
-  color: color.scale($c-white, $alpha: -30%);
+  color: $c-white-transparent;
   text-align: center;
   padding: 12px;
   text-decoration: none;
@@ -23,20 +52,5 @@
 .header a.logo {
   font-size: 25px;
   font-weight: bold;
-}
-
-.header-right {
-  float: right;
-}
-
-@media screen and (max-width: 500px) {
-  .header a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-
-  .header-right {
-    float: none;
-  }
+  flex: 1;
 }
