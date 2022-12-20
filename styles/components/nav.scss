@@ -33,24 +33,24 @@
     top: -5px;
     right: -5px;
   }
-}
 
-.header a {
-  color: $c-white-transparent;
-  text-align: center;
-  padding: 12px;
-  text-decoration: none;
-  font-size: 18px;
-  line-height: 25px;
-  transition: color 0.2s ease-in-out;
-}
+  a {
+    color: $c-white-transparent;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 25px;
+    transition: color 0.2s ease-in-out;
+  }
 
-.header a:hover {
-  color: $c-white;
-}
+  a:hover {
+    color: $c-white;
+  }
 
-.header a.logo {
-  font-size: 25px;
-  font-weight: bold;
-  flex: 1;
+  a.logo {
+    font-size: 25px;
+    font-weight: bold;
+    flex: 1;
+  }
 }

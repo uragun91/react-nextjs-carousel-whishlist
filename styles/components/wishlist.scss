@@ -1,6 +1,13 @@
 .wishlist {
   color: $c-white-transparent;
 
+  a {
+    color: $c-secondary;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 5px;
+  }
+
   &__movie {
     margin-bottom: 40px;
     padding-top: 40px;
