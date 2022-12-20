@@ -33,13 +33,19 @@ export default function Home() {
   return (
     <div className="container">
       <div className="movies-carousel">
-        <Carousel movies={popular} title="Popular" loading={loadingPopular} />
+        <Carousel
+          movies={popular}
+          title="Popular"
+          loading={loadingPopular}
+          buttonVariant="primary"
+        />
       </div>
       <div className="movies-carousel">
         <Carousel
           movies={topRated}
           title="Top Rated"
           loading={loadingTopRated}
+          buttonVariant="secondary"
         />
       </div>
       <div className="movies-carousel">
@@ -47,6 +53,7 @@ export default function Home() {
           movies={upcoming}
           title="Upcoming"
           loading={loadingUpcoming}
+          buttonVariant="warn"
         />
       </div>
     </div>

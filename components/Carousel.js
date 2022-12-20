@@ -1,10 +1,16 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import MoviePlaceholder from './MoviePlaceholder';
+import Cn from 'classnames';
 
-export default function Carousel({ movies = [], title = '', loading = false }) {
+export default function Carousel({
+  movies = [],
+  title = '',
+  loading = false,
+  buttonVariant = 'primary',
+}) {
   const router = useRouter();
   const frameRef = useRef();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -13,8 +19,18 @@ export default function Carousel({ movies = [], title = '', loading = false }) {
     return `${src}?w=${width}`;
   };
 
+  const leftClassNames = useMemo(
+    () => Cn('slider__left', { disabled: currentIndex === 0 }),
+    [currentIndex]
+  );
+
+  const rightClassNames = useMemo(
+    () => Cn('slider__right', { disabled: currentIndex === movies.length - 1 }),
+    [currentIndex, movies.length]
+  );
+
   const handleItemClick = (item) => {
-    router.push(`/movie?id=${item.id}`);
+    router.push(`/movie?id=${item.id}&type=${buttonVariant}`);
   };
 
   const handleDirectionClick = useCallback(
@@ -57,7 +73,7 @@ export default function Carousel({ movies = [], title = '', loading = false }) {
       <div className="carousel__title">{title}</div>
       <div className="carousel__slider slider">
         <svg
-          className="slider__left"
+          className={leftClassNames}
           xmlns="http://www.w3.org/2000/svg"
           width="32"
           height="300"
@@ -100,7 +116,7 @@ export default function Carousel({ movies = [], title = '', loading = false }) {
           </div>
         </div>
         <svg
-          className="slider__right"
+          className={rightClassNames}
           xmlns="http://www.w3.org/2000/svg"
           width="32"
           height="300"
@@ -119,10 +135,12 @@ Carousel.propTypes = {
   carousel: PropTypes.array,
   title: PropTypes.string,
   loading: PropTypes.bool,
+  buttonVariant: PropTypes.oneOf(['default', 'primary', 'secondary', 'warn']),
 };
 
 Carousel.defaultProps = {
   carousel: [],
   title: '',
   loading: false,
+  buttonVariant: 'primary',
 };

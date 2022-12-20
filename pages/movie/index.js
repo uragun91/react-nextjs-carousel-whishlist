@@ -1,49 +1,61 @@
-import { memo, useMemo, useState, useEffect } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+
 import { Button } from '../../components';
-import { movieByID } from '../../utils/Constant';
 import { Context } from '../../store/AppContext';
+import { movieByID } from '../../utils/Constant';
+import Cn from 'classnames';
 
 const Movie = memo(() => {
-  ///main application state initilize
   const [movieDetail, setMovieDetail] = useState(null);
+  const [movieYear, setMovieYear] = useState('');
+  const [movieRevenue, setMovieRevenue] = useState(null);
+  const [movieBudget, setMovieBudget] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { id } = router.query;
+  const { id, type } = router.query;
 
   const { globalDispatch, globalState } = Context();
   let watchList = globalState.watchList;
 
-  const movieObj = useMemo(() => {
-    return { id: id };
-  }, [id]);
+  const fetchMovieDetail = useCallback(async () => {
+    if (id) {
+      try {
+        const data = await fetch(movieByID(id));
+        const movie = await data.json();
+        setMovieDetail(movie);
+        setLoading(false);
+        const year = movie.release_date;
+        if (year) {
+          setMovieYear(year.substring(0, 4));
+        }
 
-  ///on opening page fetch api call
+        setMovieRevenue(
+          new Intl.NumberFormat('en', {
+            maximumSignificantDigits: 3,
+          }).format(movieDetail.revenue)
+        );
+
+        setMovieBudget(
+          new Intl.NumberFormat('en', {
+            maximumSignificantDigits: 3,
+          }).format(movieDetail.budget)
+        );
+      } catch (ex) {
+        setLoading(false);
+      }
+    }
+  }, [id, movieDetail?.revenue, movieDetail?.budget]);
+
   useEffect(() => {
     setLoading(true);
     fetchMovieDetail();
-  }, [movieObj]);
+  }, [id, fetchMovieDetail]);
 
-  //Method to fetch most popular movies
-  const fetchMovieDetail = async () => {
-    try {
-      const data = await fetch(movieByID(id));
-      const movies = await data.json();
-      setMovieDetail(movies);
-      console.log(movies);
-      setLoading(false);
-    } catch (ex) {
-      setLoading(false);
-    }
-  };
+  const movieClassName = useMemo(() => Cn('movie', `movie--${type}`), [type]);
 
-  const myLoader = ({ src, width, quality }) => {
-    return `${src}?w=${width}&q=${quality || 75}`;
-  };
-
-  //add watch list item
-  const addWatchList = (name) => {
+  const addMovieToWishList = (name) => {
     if (watchList === null) {
       watchList = [name];
     } else {
@@ -53,95 +65,77 @@ const Movie = memo(() => {
     globalDispatch({ type: 'watchList', payload: watchList });
   };
 
-  //if loading true then loader will run
-  if (loading) {
-    return <div className="vertical-center loader"></div>;
+  if (!movieDetail) {
+    return <div>Loading</div>;
   }
-  return (
-    <div className="wrapper">
-      <div className="box left">
-        <div className="sliderDetail">
-          {movieDetail && (
-            <Image
-              src={
-                'https://image.tmdb.org/t/p/w500' + movieDetail.backdrop_path
-              }
-              alt={'ss'}
-              height={400}
-              width={700}
-              layout="responsive"
-              loader={myLoader}
-            />
-          )}
-        </div>
-      </div>
 
-      <div className="box right">
-        <div className="inline">
-          <div style={{ maxWidth: '500px', marginRight: '20px' }}>
-            <div className="header_poster_wrapper true">
-              <div className="title ott_true" dir="auto">
-                <h2 className="18">
-                  <a>{movieDetail && movieDetail.title}</a>
-                </h2>
-                <div className="facts">
-                  <span className="release">
-                    {movieDetail && movieDetail.release_date}
+  return (
+    <div className={movieClassName}>
+      <div className="movie__top-box">
+        <div className="movie__image-wrapper">
+          <img
+            src={'https://image.tmdb.org/t/p/w500' + movieDetail.backdrop_path}
+            className="movie__image"
+            alt={movieDetail.title}
+          />
+        </div>
+
+        <div className="movie__information">
+          <h1 className="movie__title">{movieDetail.title}</h1>
+
+          <div className="movie__meta-data">
+            <div className="movie__year-and-country">
+              <span className="horizontal-list-item">{movieYear}</span>
+              {(movieDetail.production_countries || []).map((country) => {
+                return (
+                  <span
+                    key={country['iso_3166_1']}
+                    className="horizontal-list-item"
+                  >
+                    {country.name}
                   </span>
-                  <span className="genres">
-                    {movieDetail &&
-                      movieDetail.genres &&
-                      movieDetail.genres.map((item, index) => {
-                        return <a key={item + index}> {item.name} ,&nbsp;</a>;
-                      })}
+                );
+              })}
+            </div>
+            <div className="movie__genre-details">
+              {(movieDetail.genres || []).map((genre) => {
+                return (
+                  <span
+                    className="movie__genre horizontal-list-item"
+                    key={genre.id}
+                  >
+                    {genre.name}
                   </span>
-                  <span className="runtime">
-                    {movieDetail && movieDetail.runtime} Min
-                  </span>
-                </div>
-                <div>
-                  <h6>Overview</h6>
-                  <span>{movieDetail && movieDetail.overview}</span>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
+          <div className="movie__overview">{movieDetail.overview}</div>
+
           <Button
-            primary={true}
-            onClick={() => addWatchList(movieDetail.title)}
+            className="movie__add-to-wishlist-button"
+            variant={type}
+            onClick={() => addMovieToWishList(movieDetail.title)}
           >
-            + Add Wish list
+            Add to wishlist
           </Button>
         </div>
       </div>
-      <div className="box bottom">
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div>
-            <span>
-              <h6>Production</h6>
-              {movieDetail &&
-                movieDetail.production_companies &&
-                movieDetail.production_companies[0].name}
-            </span>
-          </div>
-          <div>
-            <span>
-              <h6>Budget</h6>
-              {movieDetail && movieDetail.budget && movieDetail.budget} USD
-            </span>
-          </div>
-          <div>
-            <span>
-              <h6>Popularity</h6>
-              {movieDetail && movieDetail.popularity && movieDetail.popularity}
-            </span>
-          </div>
-          <div>
-            <span>
-              <h6>Revenue</h6>
-              {movieDetail && movieDetail.revenue}
-            </span>
-          </div>
+
+      <div className="movie__bottom-box">
+        <div className="movie__rating badge">
+          <span className="badge__lable">Rating:</span>
+          <span className="badge__value">{movieDetail.vote_average}</span>
+        </div>
+
+        <div className="movie__rating badge">
+          <span className="badge__lable">Budget:</span>
+          <span className="badge__value">{movieBudget}$</span>
+        </div>
+
+        <div className="movie__rating badge">
+          <span className="badge__lable">Revenue:</span>
+          <span className="badge__value">{movieRevenue}$</span>
         </div>
       </div>
     </div>

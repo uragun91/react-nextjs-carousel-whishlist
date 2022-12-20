@@ -1,35 +1,30 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Cn from "classnames";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Cn from 'classnames';
 
 export default function Button({
-  primary,
+  variant = 'default',
   onClick,
   children,
-  custom,
   ...props
 }) {
-  const isPrimary = primary
-    ? "button--primary"
-    : custom
-    ? custom
-    : "button--secondary";
-  const classNames = Cn("button", isPrimary);
+  const { className, ...rest } = props;
+  const classNames = Cn('button', `button--${variant}`, className);
 
   return (
-    <button type="button" className={classNames} {...props} onClick={onClick}>
+    <button type="button" className={classNames} {...rest} onClick={onClick}>
       {children}
     </button>
   );
 }
 
 Button.propTypes = {
-  primary: PropTypes.bool,
+  variant: PropTypes.oneOf(['default', 'primary', 'secondary', 'warn']),
   children: PropTypes.string.isRequired,
   onClick: PropTypes.func,
 };
 
 Button.defaultProps = {
-  primary: false,
+  variant: 'default',
   onClick: undefined,
 };

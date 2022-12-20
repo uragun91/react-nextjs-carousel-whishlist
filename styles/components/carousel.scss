@@ -19,12 +19,17 @@ $arrow-with-gap: $arrow-width + $gap;
   &__left,
   &__right {
     position: absolute;
-    cursor: pointer;
     transition: transform 0.2s ease-in-out;
     transform-origin: center center;
+    fill: rgba(255, 255, 255, 0.6);
 
-    &:hover {
-      transform: scale(1.5);
+    &:not(.disabled) {
+      cursor: pointer;
+      fill: rgba(255, 255, 255, 1);
+
+      &:hover {
+        transform: scale(1.5);
+      }
     }
   }
 
@@ -71,7 +76,7 @@ $arrow-with-gap: $arrow-width + $gap;
   }
 
   &__item {
-    margin-right: 22px;
+    margin-right: 12px;
 
     &:hover {
       #{$root}__image-container {

@@ -67,21 +67,16 @@ class MyDocument extends Document {
             href="/icons/apple-touch-icon.png"
           />
 
-          {/* analytic */}
-          {SiteConfig.googleAnalytic && (
-            <>
-              <script
-                async
-                src={`https://www.googletagmanager.com/gtag/js?id=${SiteConfig.googleAnalytic}`}
-              />
-              <script
-                type="text/javascript"
-                dangerouslySetInnerHTML={{
-                  __html: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${SiteConfig.googleAnalytic}');`,
-                }}
-              />
-            </>
-          )}
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+          />
         </Head>
         <body>
           <Main />

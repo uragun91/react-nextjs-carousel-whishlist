@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap');
+
 html,
 body {
   font-size: $fs-base;
@@ -19,6 +21,7 @@ a {
   padding-left: calc(var(--bs-gutter-x) * 0.5);
   margin-right: auto;
   margin-left: auto;
+  box-sizing: border-box;
 }
 
 @media (min-width: 576px) {
