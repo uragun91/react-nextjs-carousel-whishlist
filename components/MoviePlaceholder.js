@@ -1,7 +1,6 @@
 export default function MoviePlaceholder() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" className="movie-placeholder">
-       {' '}
       <defs>
         <linearGradient id="myGradient" gradientTransform="rotate(20)">
           <stop offset="5%" stopColor="#eee">

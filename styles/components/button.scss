@@ -6,24 +6,28 @@
   padding: 15px 20px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
 
-.button--default {
-  background: $c-grey;
-  color: $c-black;
-}
+  &--default {
+    background: $c-grey;
+    color: $c-black;
+  }
 
-.button--primary {
-  background: $c-primary;
-  color: $c-white;
-}
+  &--primary {
+    background: $c-primary;
+    color: $c-white;
+  }
 
-.button--secondary {
-  background: $c-secondary;
-  color: $c-white;
-}
+  &--secondary {
+    background: $c-secondary;
+    color: $c-white;
+  }
 
-.button--warn {
-  background: rgb(211, 95, 0);
-  color: $c-white;
+  &--warn {
+    background: rgb(211, 95, 0);
+    color: $c-white;
+  }
+
+  &--condenced {
+    padding: 10px 20px;
+  }
 }

@@ -2,29 +2,31 @@ import { useRouter } from 'next/router';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Button } from '../../components';
-import { Context } from '../../store/AppContext';
-import { movieByID } from '../../utils/Constant';
+import { apiKey, baseUrl } from '../../utils/Constant';
 import Cn from 'classnames';
+import { useDispatch } from 'react-redux';
+import { addToWishlist } from '../../store/store';
 
 const Movie = memo(() => {
-  const [movieDetail, setMovieDetail] = useState(null);
+  const [_, setLoading] = useState(false);
+  const [movieDetails, setMovieDetails] = useState(null);
   const [movieYear, setMovieYear] = useState('');
   const [movieRevenue, setMovieRevenue] = useState(null);
   const [movieBudget, setMovieBudget] = useState(null);
 
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
   const router = useRouter();
   const { id, type } = router.query;
 
-  const { globalDispatch, globalState } = Context();
-  let watchList = globalState.watchList;
-
-  const fetchMovieDetail = useCallback(async () => {
+  const fetchMovieDetails = useCallback(async () => {
     if (id) {
       try {
-        const data = await fetch(movieByID(id));
+        const data = await fetch(
+          `${baseUrl}${id}?api_key=${apiKey}&language=en-US`
+        );
         const movie = await data.json();
-        setMovieDetail(movie);
+        setMovieDetails(movie);
         setLoading(false);
         const year = movie.release_date;
         if (year) {
@@ -34,38 +36,31 @@ const Movie = memo(() => {
         setMovieRevenue(
           new Intl.NumberFormat('en', {
             maximumSignificantDigits: 3,
-          }).format(movieDetail.revenue)
+          }).format(movieDetails.revenue)
         );
 
         setMovieBudget(
           new Intl.NumberFormat('en', {
             maximumSignificantDigits: 3,
-          }).format(movieDetail.budget)
+          }).format(movieDetails.budget)
         );
       } catch (ex) {
         setLoading(false);
       }
     }
-  }, [id, movieDetail?.revenue, movieDetail?.budget]);
+  }, [id, movieDetails?.revenue, movieDetails?.budget]);
 
   useEffect(() => {
-    setLoading(true);
-    fetchMovieDetail();
-  }, [id, fetchMovieDetail]);
+    fetchMovieDetails();
+  }, [id, fetchMovieDetails]);
 
   const movieClassName = useMemo(() => Cn('movie', `movie--${type}`), [type]);
 
-  const addMovieToWishList = (name) => {
-    if (watchList === null) {
-      watchList = [name];
-    } else {
-      const isVal = watchList.includes(name);
-      if (!isVal) watchList.push(name);
-    }
-    globalDispatch({ type: 'watchList', payload: watchList });
+  const addMovieToWishList = () => {
+    dispatch(addToWishlist(movieDetails));
   };
 
-  if (!movieDetail) {
+  if (!movieDetails) {
     return <div>Loading</div>;
   }
 
@@ -74,19 +69,19 @@ const Movie = memo(() => {
       <div className="movie__top-box">
         <div className="movie__image-wrapper">
           <img
-            src={'https://image.tmdb.org/t/p/w500' + movieDetail.backdrop_path}
+            src={'https://image.tmdb.org/t/p/w500' + movieDetails.backdrop_path}
             className="movie__image"
-            alt={movieDetail.title}
+            alt={movieDetails.title}
           />
         </div>
 
         <div className="movie__information">
-          <h1 className="movie__title">{movieDetail.title}</h1>
+          <h1 className="movie__title">{movieDetails.title}</h1>
 
           <div className="movie__meta-data">
             <div className="movie__year-and-country">
               <span className="horizontal-list-item">{movieYear}</span>
-              {(movieDetail.production_countries || []).map((country) => {
+              {(movieDetails.production_countries || []).map((country) => {
                 return (
                   <span
                     key={country['iso_3166_1']}
@@ -98,7 +93,7 @@ const Movie = memo(() => {
               })}
             </div>
             <div className="movie__genre-details">
-              {(movieDetail.genres || []).map((genre) => {
+              {(movieDetails.genres || []).map((genre) => {
                 return (
                   <span
                     className="movie__genre horizontal-list-item"
@@ -110,12 +105,12 @@ const Movie = memo(() => {
               })}
             </div>
           </div>
-          <div className="movie__overview">{movieDetail.overview}</div>
+          <div className="movie__overview">{movieDetails.overview}</div>
 
           <Button
             className="movie__add-to-wishlist-button"
             variant={type}
-            onClick={() => addMovieToWishList(movieDetail.title)}
+            onClick={() => addMovieToWishList(movieDetails.title)}
           >
             Add to wishlist
           </Button>
@@ -125,7 +120,7 @@ const Movie = memo(() => {
       <div className="movie__bottom-box">
         <div className="movie__rating badge">
           <span className="badge__lable">Rating:</span>
-          <span className="badge__value">{movieDetail.vote_average}</span>
+          <span className="badge__value">{movieDetails.vote_average}</span>
         </div>
 
         <div className="movie__rating badge">
